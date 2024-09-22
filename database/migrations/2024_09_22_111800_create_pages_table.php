@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('url');
+            $table->string('title');
+            $table->foreignId('catalog_id')->constrained()->cascadeOnDelete();
             $table->text('context')->nullable();
             $table->softDeletes();
             $table->timestamps();

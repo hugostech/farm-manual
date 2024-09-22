@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('id')->on('catalogs')->cascadeOnDelete();
-            $table->foreignId('page_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

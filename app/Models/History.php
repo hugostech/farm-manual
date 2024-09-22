@@ -2,15 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class History extends Model
 {
-    use HasFactory;
+    protected $casts = [
+        'old_data' => 'array',
+    ];
 
-    public function hisotrable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    protected $fillable = [
+        'old_data',
+        'historable_id',
+        'historable_type',
+        'user_id',
+    ];
+
+    public function historable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function editor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\Historable;
 use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    use HasFactory;
-    public function histories(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-        return $this->morphMany(History::class, 'historable');
-    }
+    use Historable;
+
+    protected $fillable = [
+        'url',
+        'title',
+        'content',
+    ];
+
+
 }

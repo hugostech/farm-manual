@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->morphs('historable');
+            $table->unsignedInteger('user_id')->nullable();
             $table->json('old_data');
             $table->timestamps();
         });
