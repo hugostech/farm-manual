@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'admin', 'prefix'=>'admin', 'controller'=>\App\Http\Controllers\AdminController::class], function () {
         Route::get('/', 'index')->name('admin-index');
+        Route::get('user-management', 'userManagerIndex')->name('user-management');
+
     });
 
     Route::group(['controller'=>\App\Http\Controllers\UserController::class], function () {
@@ -45,9 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('profile');
 
 
-	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
-	})->name('user-management');
+
 
 	Route::get('tables', function () {
 		return view('tables');

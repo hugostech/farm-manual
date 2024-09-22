@@ -52,7 +52,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class, 'user_to_groups');
     }
 
-    public function getGroupAtrribute()
+    public function getGroupAttribute()
     {
         return $this->groups->first()?->name ?? Group::TYPE_SUB;
     }

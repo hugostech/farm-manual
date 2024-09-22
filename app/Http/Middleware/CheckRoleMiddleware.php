@@ -16,7 +16,7 @@ class CheckRoleMiddleware
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (! $request->user()->hasRole($role)) {
-            return \response('Unauthorized.', 401);
+            abort(403);
         }
         return $next($request);
     }
