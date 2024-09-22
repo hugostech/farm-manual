@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
-    use HasFactory;
+    CONST TYPE_ADMIN = 'admin';
+    CONST TYPE_SUB = 'subscriber';
 }

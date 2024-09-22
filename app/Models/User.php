@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,5 +45,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
+
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'user_to_groups');
+    }
+
+    public function getGroupAtrribute()
+    {
+        return $this->groups->first()?->name ?? Group::TYPE_SUB;
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->groups->contains('name', $role);
+    }
 }

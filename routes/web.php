@@ -24,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
+    Route::group(['middleware' => 'admin', 'prefix'=>'admin', 'controller'=>\App\Http\Controllers\AdminController::class], function () {
+        Route::get('/', 'index');
+    });
+
     Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
 		return view('dashboard');

@@ -233,6 +233,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Role' => App\Http\Middleware\CheckRoleMiddleware::class,
 
     ],
 
