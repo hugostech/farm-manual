@@ -28,19 +28,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', 'index')->name('admin-index');
         Route::get('user-management', 'userManagerIndex')->name('user-management');
 
+
     });
 
     Route::group(['controller'=>\App\Http\Controllers\UserController::class], function () {
         Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('user-profile', [InfoUserController::class, 'create']);
+        Route::post('user-profile', [InfoUserController::class, 'store']);
+        Route::get('billing', 'showBilling')->name('billing');
     });
 
     Route::get('/', [HomeController::class, 'home']);
 
 
 
-	Route::get('billing', function () {
-		return view('billing');
-	})->name('billing');
+
 
 	Route::get('profile', function () {
 		return view('profile');
@@ -55,8 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
-	Route::get('/user-profile', [InfoUserController::class, 'create']);
-	Route::post('/user-profile', [InfoUserController::class, 'store']);
+
     Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
