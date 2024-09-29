@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,7 @@ class SessionsController extends Controller
         if(Auth::attempt($attributes))
         {
             session()->regenerate();
+            User::where('email', $attributes['email'])->update(['last_login_at'=>now()]);
             return redirect('/')->with(['success'=>'You are logged in.']);
         }
         else{

@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->text('subtitle')->nullable();
             $table->string('author');
+            $table->text('cover_image')->nullable();
             $table->string('status')->default('draft')->index();
-            $table->dateTime('published_at');
+            $table->dateTime('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

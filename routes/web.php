@@ -27,8 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin', 'prefix'=>'admin', 'controller'=>\App\Http\Controllers\AdminController::class], function () {
         Route::get('/', 'index')->name('admin-index');
         Route::get('user-management', 'userManagerIndex')->name('user-management');
-
-
     });
 
     Route::group(['controller'=>\App\Http\Controllers\UserController::class], function () {
@@ -37,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('user-profile', [InfoUserController::class, 'store']);
         Route::get('billing', 'showBilling')->name('billing');
     });
+
+    Route::resource('books', \App\Http\Controllers\BookController::class);
 
     Route::get('/', [HomeController::class, 'home']);
 
