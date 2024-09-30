@@ -3,9 +3,9 @@
 @section('content')
 
     <div>
-{{--        <div class="alert alert-secondary mx-4 disabled" role="alert">--}}
+        <div class="alert alert-secondary mx-4 disabled" role="alert">
 
-{{--        </div>--}}
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4 mx-4">

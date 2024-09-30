@@ -34,7 +34,7 @@
                                                         <img src="{{$book->cover_image}}" class="avatar avatar-sm me-3" alt="user2">
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">{{$book->title}}</h6>
+                                                        <h6 class="mb-0 text-sm"><a href="{{route('books.show', ['book'=>$book])}}">{{$book->title}}</a></h6>
                                                         <p class="text-xs text-secondary mb-0">{{ \Illuminate\Support\Str::limit($book->subtitle, 60) }}</p>
                                                     </div>
                                                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.user_type.user')
+@extends('layouts.user_type.admin')
 
 @section('content')
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">

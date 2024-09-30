@@ -24,9 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::group(['middleware' => 'admin', 'prefix'=>'admin', 'controller'=>\App\Http\Controllers\AdminController::class], function () {
-        Route::get('/', 'index')->name('admin-index');
-        Route::get('user-management', 'userManagerIndex')->name('user-management');
+    Route::group(['middleware' => 'admin', 'prefix'=>'admin'], function () {
+        Route::group(['controller'=>\App\Http\Controllers\AdminController::class], function () {
+            Route::get('/', 'index')->name('admin-index');
+            Route::get('user-management', 'userManagerIndex')->name('user-management');
+        });
+        Route::resource('groups', \App\Http\Controllers\UserGroupController::class);
+
     });
 
     Route::group(['controller'=>\App\Http\Controllers\UserController::class], function () {
@@ -37,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::resource('books', \App\Http\Controllers\BookController::class);
+    Route::resource('pages', \App\Http\Controllers\PageController::class);
+
 
     Route::get('/', [HomeController::class, 'home']);
 

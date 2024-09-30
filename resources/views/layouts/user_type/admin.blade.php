@@ -13,22 +13,24 @@
         <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
             @include('layouts.navbars.admin.nav')
             <div class="container-fluid py-4">
+                <!-- Error Display -->
+                @if ($errors->any())
+                    <div class="alert alert-danger mx-4 disabled" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @yield('content')
                 @include('layouts.footers.auth.footer')
             </div>
         </main>
     @endif
 
-    <!-- Error Display -->
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
 
     @include('components.fixed-plugin')
 
