@@ -41,7 +41,7 @@ class Book extends Model
         if ($user->group === 'admin') {
             return self::all()->sortBy('title');
         }else{
-            return self::where('status', self::STATUS_PUBLISHED)->get()->sortBy('title');
+            return $user->getAvailableBooks()->sortBy('title');
         }
 
     }

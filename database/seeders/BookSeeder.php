@@ -38,6 +38,12 @@ class BookSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        DB::table('book_to_groups')->insert([
+            'book_id' => 1,
+            'group_id' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
         for ($i = 1; $i <= 5; $i++) {
             DB::table('catalogs')->insert([
                 'id' => $i,

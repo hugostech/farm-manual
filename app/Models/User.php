@@ -62,4 +62,17 @@ class User extends Authenticatable
     {
         return $this->groups->contains('name', $role);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(Group::TYPE_ADMIN);
+    }
+
+    public function getAvailableBooks(): \Illuminate\Support\Collection
+    {
+        if ($this->isAdmin()) {
+            return Book::all();
+        }
+        return $this->groups()->first()?->books ?? collect();
+    }
 }

@@ -31,7 +31,16 @@ class UserGroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cleanData = $request->validate([
+            'name' => 'required',
+            'books' => 'required|array',
+        ]);
+
+        $group = Group::create($cleanData);
+
+        $group->books()->sync($cleanData['books']);
+
+        return redirect()->route('groups.index');
     }
 
     /**
@@ -55,7 +64,17 @@ class UserGroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-        //
+        $cleanData = $request->validate([
+            'name' => 'required',
+            'books' => 'required|array',
+        ]);
+
+        $group->update($cleanData);
+
+        $group->books()->sync($cleanData['books']);
+
+        return redirect()->route('groups.index');
+
     }
 
     /**
