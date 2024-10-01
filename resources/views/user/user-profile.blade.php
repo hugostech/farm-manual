@@ -44,6 +44,7 @@
             <div class="card">
                 <div class="card-header pb-0 px-3">
                     <h6 class="mb-0">{{ __('Profile Information') }}</h6>
+                    <p class="text-sm">{{$user->email}}</p>
                 </div>
                 <div class="card-body pt-4 p-3">
                     <form action="{{route('update-user-profile')}}" method="POST" role="form text-left">
@@ -62,10 +63,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="user-email" class="form-control-label">{{ __('Email') }}</label>
+                                    <label for="user-email" class="form-control-label">{{ __('Password') }}</label>
                                     <div class="@error('email')border border-danger rounded-3 @enderror">
-                                        <input class="form-control" value="{{ auth()->user()->email }}" disabled type="email" placeholder="@example.com" id="user-email" name="email">
-                                        @error('email')
+                                        <input class="form-control" type="password" placeholder="password" name="password">
+                                        @error('password')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
                                     </div>

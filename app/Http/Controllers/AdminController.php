@@ -24,19 +24,18 @@ class AdminController extends Controller
         return view('admin.user-management', compact('users'));
     }
 
-    public function disableUser(User $user)
-    {
-        $user->disable();
-        return redirect()->back();
-    }
-
     public function userManagementUpdate(Request $request, User $user)
     {
         $cleanData = $request->validate([
             'name' => 'required|string',
             'profile_image' => 'nullable|image',
             'group' => 'required',
+            'phone' => 'nullable|string',
+            'location' => 'nullable|string',
+            'status' => 'required',
+            'password' => 'nullable|string',
         ]);
+        $cleanData['password'] = bcrypt($cleanData['password']);
         $user->fill($cleanData);
         $user->save();
         if ($request->has('profile_image')) {
@@ -46,6 +45,27 @@ class AdminController extends Controller
             $user->groups()->sync([$cleanData['group']]);
         }
 
+        return redirect()->back();
+    }
+
+    public function createUser(Request $request)
+    {
+        $cleanData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string',
+            'profile_image' => 'nullable|image',
+            'group' => 'required',
+            'phone' => 'nullable|string',
+            'location' => 'nullable|string',
+            'status' => 'required',
+        ]);
+        $cleanData['password'] = bcrypt($cleanData['password']);
+        $user = User::create($cleanData);
+        if ($request->has('profile_image')) {
+            $user->storeProfileImage($request->file('profile_image'));
+        }
+        $user->groups()->sync([$cleanData['group']]);
         return redirect()->back();
     }
 }

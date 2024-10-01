@@ -29,6 +29,8 @@ class UserSeeder extends Seeder
             'id' => 2,
             'name' => $faker->name,
             'email' => 'user@lincoln.ac.nz',
+            'phone' => $faker->phoneNumber,
+            'location' => $faker->city,
             'password' => Hash::make('secret'),
             'created_at' => now(),
             'updated_at' => now()
@@ -84,6 +86,8 @@ class UserSeeder extends Seeder
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
+                'phone' => $faker->phoneNumber,
+                'location' => $faker->city,
                 'password' => Hash::make('secret'),
                 'created_at' => now(),
                 'updated_at' => now()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -45,10 +46,15 @@ class UserController extends Controller
 
         $attributes = request()->validate([
             'name' => ['required', 'max:50'],
-//            'email' => ['required', 'email', 'max:50', Rule::unique('users')->ignore(Auth::user()->id)],
             'phone'     => ['max:50'],
             'location' => ['max:70'],
             'about_me'    => ['max:150'],
+            'password' => ['nullable', 'max:50', Password::min(8)->letters()->mixedCase()->numbers()],
+        ], [
+            'password.min' => 'The password must be at least 8 characters.',
+            'password.letters' => 'The password must contain at least one letter.',
+            'password.mixedCase' => 'The password must contain both uppercase and lowercase letters.',
+            'password.numbers' => 'The password must contain at least one number.',
         ]);
 
 

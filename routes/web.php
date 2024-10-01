@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth', \App\Http\Middleware\UserStatusCheck::cla
             Route::get('/', 'index')->name('admin-index');
             Route::get('user-management', 'userManagerIndex')->name('user-management');
             Route::put('user-management/{user}', 'userManagementUpdate')->name('user.update');
-            Route::put('user-management/{user}/disable', 'disableUser')->name('user.disable');
+            Route::post('user-management/create', 'createUser')->name('user.create');
         });
         Route::resource('groups', \App\Http\Controllers\UserGroupController::class);
 
