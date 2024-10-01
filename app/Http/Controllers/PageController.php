@@ -40,6 +40,7 @@ class PageController extends Controller
         if (Auth::user()->isAdmin()) {
             return view('admin.pages.show', compact('page'));
         }
+        $page->recordReader(Auth::user());
         return view('user.pages.show', compact('page'));
     }
 

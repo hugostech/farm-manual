@@ -122,19 +122,15 @@
                                           </p>
                                           <div class="d-flex align-items-center justify-content-between">
                                               <a type="button" class="btn btn-outline-primary btn-sm mb-0" href="{{route('books.show', ['book'=>$book])}}">View</a>
+                                              @if($book->getLastReadPage($user))
+                                                  <a class="btn btn-outline-primary btn-sm mb-0" href="{{$book->getLastReadPage($user)->getUrl()}}">Last Read Page</a>
+                                              @endif
                                               <div class="avatar-group mt-2">
-                                                  <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
-                                                      <img alt="Image placeholder" src="../assets/img/team-1.jpg">
-                                                  </a>
-                                                  <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Milly">
-                                                      <img alt="Image placeholder" src="../assets/img/team-2.jpg">
-                                                  </a>
-                                                  <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nick Daniel">
-                                                      <img alt="Image placeholder" src="../assets/img/team-3.jpg">
-                                                  </a>
-                                                  <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Peterson">
-                                                      <img alt="Image placeholder" src="../assets/img/team-4.jpg">
-                                                  </a>
+                                                  @foreach($book->todayReaders->take(5) as $reader)
+                                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{$reader->name}}">
+                                                            <img alt="Image placeholder" src="{{$reader->avatar}}">
+                                                        </a>
+                                                  @endforeach
                                               </div>
                                           </div>
                                       </div>

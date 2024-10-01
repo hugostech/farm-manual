@@ -22,11 +22,6 @@ class Book extends Model
         'published_at' => 'datetime',
     ];
 
-    public function readers()
-    {
-        return $this->hasManyThrough(User::class, UserBookHistory::class, 'page_id', 'user_id');
-    }
-
     public function storeCoverImage($image)
     {
         $path = $image->store('covers', 'public');
@@ -59,6 +54,30 @@ class Book extends Model
     public function availableCatalogs(): Collection
     {
         return $this->catalogs()->whereNull('parent_id')->where('status', Catalog::STATUS_PUBLISHED)->get()->sortBy('sort');
+    }
+
+    /**
+     * return all todays readers of the book
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function todayReaders(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, UserBookHistory::class)
+            ->whereBetween('user_book_histories.created_at', [now()->startOfDay(), now()->endOfDay()])
+            ->distinct('users.id');
+    }
+
+    /**
+     * return all readers of the book
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function getLastReadPage(User $user): ?Page
+    {
+        $history = UserBookHistory::where('book_id', $this->id)
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        return $history ? $history->page : null;
     }
 
 }
