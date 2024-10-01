@@ -6,13 +6,18 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0">
-                            <h6>Books</h6>
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#createBookModal">
-                                New Book
-                            </button>
+                        <div class="card-header">
+
+                            <div class="d-flex flex-row justify-content-between">
+                                <div>
+                                    <h5 class="mb-0">All Books</h5>
+                                </div>
+                                <a href="#" class="btn btn-primary btn-sm mb-0" data-bs-toggle="modal"
+                                   data-bs-target="#createBookModal" type="button">+&nbsp; New Book</a>
+                            </div>
+
                         </div>
+
                         <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
                                 <table class="table align-items-center mb-0">

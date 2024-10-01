@@ -22,6 +22,11 @@ class Book extends Model
         'published_at' => 'datetime',
     ];
 
+    public function readers()
+    {
+        return $this->hasManyThrough(User::class, UserBookHistory::class, 'page_id', 'user_id');
+    }
+
     public function storeCoverImage($image)
     {
         $path = $image->store('covers', 'public');
@@ -38,7 +43,7 @@ class Book extends Model
     public static function availableBooksForUser(User $user): Collection
     {
         // If the user is an admin, return all books
-        if ($user->group === 'admin') {
+        if ($user->isAdmin()) {
             return self::all()->sortBy('title');
         }else{
             return $user->getAvailableBooks()->sortBy('title');

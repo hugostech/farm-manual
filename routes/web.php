@@ -22,12 +22,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', \App\Http\Middleware\UserStatusCheck::class]], function () {
 
     Route::group(['middleware' => 'admin', 'prefix'=>'admin'], function () {
         Route::group(['controller'=>\App\Http\Controllers\AdminController::class], function () {
             Route::get('/', 'index')->name('admin-index');
             Route::get('user-management', 'userManagerIndex')->name('user-management');
+            Route::put('user-management/{user}', 'userManagementUpdate')->name('user.update');
+            Route::put('user-management/{user}/disable', 'disableUser')->name('user.disable');
         });
         Route::resource('groups', \App\Http\Controllers\UserGroupController::class);
 

@@ -11,7 +11,7 @@
         <div class="row gx-4">
           <div class="col-auto">
             <div class="avatar avatar-xl position-relative">
-              <img src="../assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+              <img src="{{Auth::user()->avatar}}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
             </div>
           </div>
           <div class="col-auto my-auto">
@@ -20,7 +20,7 @@
                   {{ Auth::user()->name }}
               </h5>
               <p class="mb-0 font-weight-bold text-sm text-capitalize">
-                  {{ Auth::user()->group }}
+                  Group: {{ Auth::user()->group_name }}
               </p>
             </div>
           </div>

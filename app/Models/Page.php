@@ -15,5 +15,15 @@ class Page extends Model
         'content',
     ];
 
+    public function readers(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(User::class, UserBookHistory::class, 'page_id', 'user_id');
+    }
+
+    public function recordReader(User $user): void
+    {
+        $this->readers()->attach($user);
+    }
+
 
 }

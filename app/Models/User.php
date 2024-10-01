@@ -26,6 +26,8 @@ class User extends Authenticatable
         'location',
         'about_me',
         'last_login_at',
+        'profile_image',
+        'status',
     ];
 
     /**
@@ -55,6 +57,11 @@ class User extends Authenticatable
 
     public function getGroupAttribute()
     {
+        return $this->groups->first();
+    }
+
+    public function getGroupNameAttribute()
+    {
         return $this->groups->first()?->name ?? Group::TYPE_SUB;
     }
 
@@ -74,5 +81,29 @@ class User extends Authenticatable
             return Book::all();
         }
         return $this->groups()->first()?->books ?? collect();
+    }
+
+    public function getAvatarAttribute()
+    {
+        if ($this->profile_image) {
+            return asset('storage/' . $this->profile_image);
+        }
+        return url('assets/img/team-2.jpg');
+    }
+
+    public function storeProfileImage($image)
+    {
+        $path = $image->store('profile_images', 'public');
+        $this->update(['profile_image' => $path]);
+    }
+
+    public function disable()
+    {
+        $this->update(['status' => false]);
+    }
+
+    public function isDisabled(): bool
+    {
+        return !$this->status;
     }
 }

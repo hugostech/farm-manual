@@ -35,10 +35,13 @@
                                         Email
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        role
+                                        Group
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Creation Date
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Status
                                     </th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Action
@@ -53,7 +56,7 @@
                                         </td>
                                         <td>
                                             <div>
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                                                <img src="{{$user->avatar}}" class="avatar avatar-sm me-3">
                                             </div>
                                         </td>
                                         <td class="text-center">
@@ -63,18 +66,23 @@
                                             <p class="text-xs font-weight-bold mb-0">{{$user->email}}</p>
                                         </td>
                                         <td class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0 text-capitalize">{{$user->group}}</p>
+                                            <p class="text-xs font-weight-bold mb-0 text-capitalize">{{$user->group_name}}</p>
                                         </td>
                                         <td class="text-center">
                                             <span class="text-secondary text-xs font-weight-bold">{{$user->created_at->format('d-M-Y')}}</span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="#" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
+                                            <span class="text-secondary text-xs font-weight-bold">{{$user->status?'Active':'Disable'}}</span>
+                                        </td>
+                                        <td class="text-center">
+
+                                            <a href="#" class="mx-3 edit-user-btn"
+                                               data-action="{{ route('user.update', ['user' => $user]) }}" data-user-id="{{ $user->id }}"
+                                               data-user-name="{{ $user->name }}" data-user-email="{{ $user->email }}"
+                                               data-user-group="{{ $user->group?->id }}" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
                                                 <i class="fas fa-user-edit text-secondary"></i>
                                             </a>
-                                            <span>
-                                            <i class="cursor-pointer fas fa-trash text-secondary"></i>
-                                        </span>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,6 +103,72 @@
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email <span class="text-sm text-danger">(Display only)</span></label>
+                            <input type="email" class="form-control" id="email" name="email" disabled required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="username" name="name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="group" class="form-label">Group</label>
+                            <select class="form-select" id="group" name="group" required>
+                                @foreach(\App\Models\Group::all() as $group)
+                                <option value="{{$group->id}}">{{$group->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profile_image" class="form-label">Profile Image</label>
+                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButtons = document.querySelectorAll('.edit-user-btn');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-user-id');
+                    const userName = this.getAttribute('data-user-name');
+                    const userEmail = this.getAttribute('data-user-email');
+                    const userGroup = this.getAttribute('data-user-group');
+                    const userAction = this.getAttribute('data-action');
+
+                    const form = document.getElementById('editUserForm');
+                    form.action = userAction;
+                    document.getElementById('username').value = userName;
+                    document.getElementById('email').value = userEmail;
+                    document.getElementById('group').value = userGroup;
+
+                    const editUserModal = new bootstrap.Modal(document.getElementById('editUserModal'));
+                    editUserModal.show();
+                });
+            });
+        });
+    </script>
 @endsection

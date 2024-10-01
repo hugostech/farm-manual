@@ -37,7 +37,7 @@ class PageController extends Controller
      */
     public function show(Page $page)
     {
-        if (Auth::user()->group === 'admin') {
+        if (Auth::user()->isAdmin()) {
             return view('admin.pages.show', compact('page'));
         }
         return view('user.pages.show', compact('page'));

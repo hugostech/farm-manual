@@ -23,8 +23,13 @@ class SessionsController extends Controller
 
         if(Auth::attempt($attributes))
         {
+            $user = User::where('email', $attributes['email'])->first();
+            if ($user->isDisabled()) {
+                Auth::logout();
+                return back()->withErrors(['email'=>'Your account is inactive.']);
+            }
             session()->regenerate();
-            User::where('email', $attributes['email'])->update(['last_login_at'=>now()]);
+            $user->update(['last_login_at'=>now()]);
             return redirect('/')->with(['success'=>'You are logged in.']);
         }
         else{

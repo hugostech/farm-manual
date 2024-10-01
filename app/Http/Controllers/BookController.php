@@ -15,7 +15,7 @@ class BookController extends Controller
     {
         $books = Book::all();
         $user = $request->user();
-        if ($user->group === 'admin') {
+        if ($user->isAdmin()) {
             return view('admin.books.index', compact('books'));
         }
         return view('user.books.index', compact('books'));
@@ -60,7 +60,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        if (Auth::user()->group === 'admin') {
+        if (Auth::user()->isAdmin()) {
             return view('admin.books.show', compact('book'));
         }else{
             return view('user.books.show', compact('book'));

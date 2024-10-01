@@ -14,7 +14,7 @@ class InfoUserController extends Controller
     public function create()
     {
         $template = 'user.user-profile';
-        if (Auth::user()->group == 'admin') {
+        if (Auth::user()->isAdmin()) {
             $template = 'admin.user-profile';
         }
         return view($template, [

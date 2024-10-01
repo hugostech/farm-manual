@@ -37,7 +37,7 @@ class BookPolicy
      */
     public function update(User $user, Book $book): bool
     {
-        if ($user->group === 'admin') {
+        if ($user->isAdmin()) {
             return true;
         }
         return false;

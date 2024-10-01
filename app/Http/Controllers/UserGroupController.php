@@ -32,7 +32,7 @@ class UserGroupController extends Controller
     public function store(Request $request)
     {
         $cleanData = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:groups',
             'books' => 'required|array',
         ]);
 
@@ -68,6 +68,10 @@ class UserGroupController extends Controller
             'name' => 'required',
             'books' => 'required|array',
         ]);
+
+        if (!$group->is_editable) {
+            return redirect()->route('groups.index')->withErrors('This group is not editable');
+        }
 
         $group->update($cleanData);
 
