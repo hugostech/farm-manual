@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
@@ -34,17 +35,18 @@ Route::group(['middleware' => ['auth', \App\Http\Middleware\UserStatusCheck::cla
 
     });
 
-    Route::group(['controller'=>\App\Http\Controllers\UserController::class], function () {
+    Route::group(['controller'=> UserController::class], function () {
         Route::get('dashboard', 'dashboard')->name('dashboard');
         Route::get('user-profile', 'create')->name('get-user-profile');
         Route::post('user-profile', 'store')->name('update-user-profile');
         Route::get('billing', 'showBilling')->name('billing');
+        Route::put('/user/{user}/update-image', 'updateImage')->name('user.update.image');
     });
 
     Route::resource('books', \App\Http\Controllers\BookController::class);
     Route::resource('pages', \App\Http\Controllers\PageController::class);
 
-    Route::put('/user/{user}/update-image', [\App\Http\Controllers\UserController::class, 'updateImage'])->name('user.update.image');
+
 
 
     Route::get('/', [HomeController::class, 'home']);

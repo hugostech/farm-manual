@@ -12,7 +12,9 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        return view('user.dashboard');
+        return view('user.dashboard', [
+            'user' => Auth::user()
+        ]);
     }
 
     public function showBilling()
