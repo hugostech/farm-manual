@@ -12,9 +12,15 @@
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
                             <img src="{{$user->avatar}}" alt="avatar" class="w-100 border-radius-lg shadow-sm">
-                            <a href="javascript:;" class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2">
+                            <a href="javascript:;"
+                               class="btn btn-sm btn-icon-only bg-gradient-light position-absolute bottom-0 end-0 mb-n2 me-n2" id="editImageButton">
                                 <i class="fa fa-pen top-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Image"></i>
                             </a>
+                            <form id="editImageForm" method="POST" action="{{ route('user.update.image', $user->id) }}" enctype="multipart/form-data" style="display: none;">
+                                @csrf
+                                @method('PUT')
+                                <input type="file" id="profileImageInput" name="profile_image" accept="image/*" style="display: none;">
+                            </form>
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -40,26 +46,8 @@
                     <h6 class="mb-0">{{ __('Profile Information') }}</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
-                    <form action="/user-profile" method="POST" role="form text-left">
+                    <form action="{{route('update-user-profile')}}" method="POST" role="form text-left">
                         @csrf
-                        @if($errors->any())
-                            <div class="mt-3  alert alert-primary alert-dismissible fade show" role="alert">
-                            <span class="alert-text text-white">
-                            {{$errors->first()}}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
-                        @if(session('success'))
-                            <div class="m-3  alert alert-success alert-dismissible fade show" id="alert-success" role="alert">
-                            <span class="alert-text text-white">
-                            {{ session('success') }}</span>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        @endif
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -76,7 +64,7 @@
                                 <div class="form-group">
                                     <label for="user-email" class="form-control-label">{{ __('Email') }}</label>
                                     <div class="@error('email')border border-danger rounded-3 @enderror">
-                                        <input class="form-control" value="{{ auth()->user()->email }}" type="email" placeholder="@example.com" id="user-email" name="email">
+                                        <input class="form-control" disabled value="{{ auth()->user()->email }}" type="email" placeholder="@example.com" id="user-email" name="email">
                                         @error('email')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -89,7 +77,9 @@
                                 <div class="form-group">
                                     <label for="user.phone" class="form-control-label">{{ __('Phone') }}</label>
                                     <div class="@error('user.phone')border border-danger rounded-3 @enderror">
-                                        <input class="form-control" type="tel" placeholder="40770888444" id="number" name="phone" value="{{ auth()->user()->phone }}">
+                                        <input class="form-control" type="tel"
+                                               id="number"
+                                               name="phone" value="{{ auth()->user()->phone }}">
                                         @error('phone')
                                         <p class="text-danger text-xs mt-2">{{ $message }}</p>
                                         @enderror
@@ -120,4 +110,21 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editImageButton = document.getElementById('editImageButton');
+            const profileImageInput = document.getElementById('profileImageInput');
+            const editImageForm = document.getElementById('editImageForm');
+
+            editImageButton.addEventListener('click', function() {
+                profileImageInput.click();
+            });
+
+            profileImageInput.addEventListener('change', function() {
+                if (profileImageInput.files.length > 0) {
+                    editImageForm.submit();
+                }
+            });
+        });
+    </script>
 @endsection
