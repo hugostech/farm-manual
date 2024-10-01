@@ -74,6 +74,7 @@ class BookSeeder extends Seeder
                 'context' => $faker->text,
                 'sort' => $i,
                 'catalog_id' => 1,
+                'book_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

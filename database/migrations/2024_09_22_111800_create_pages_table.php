@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('url');
             $table->string('title');
-            $table->foreignId('catalog_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('catalog_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('book_id')->constrained()->cascadeOnDelete();
             $table->integer('sort')->default(0);
             $table->text('context')->nullable();
             $table->softDeletes();

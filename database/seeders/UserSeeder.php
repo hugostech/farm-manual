@@ -37,12 +37,31 @@ class UserSeeder extends Seeder
         DB::table('groups')->insert([
             'id' => 1,
             'name' => 'admin',
+            'is_editable' => false,
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('groups')->insert([
             'id' => 2,
-            'name' => 'subscriber',
+            'name' => 'Students Subscription',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        DB::table('groups')->insert([
+            'id' => 3,
+            'name' => 'Education Subscription',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        DB::table('groups')->insert([
+            'id' => 4,
+            'name' => 'Farmers Subscription',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        DB::table('groups')->insert([
+            'id' => 5,
+            'name' => 'Industry Subscription',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -61,7 +80,7 @@ class UserSeeder extends Seeder
             'updated_at' => now()
         ]);
 
-        for ($i = 3; $i < 30; $i++) {
+        for ($i = 3; $i < 140; $i++) {
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
@@ -71,7 +90,7 @@ class UserSeeder extends Seeder
             ]);
             DB::table('user_to_groups')->insert([
                 'user_id' => $i,
-                'group_id' => 2,
+                'group_id' => rand(2, 5),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
