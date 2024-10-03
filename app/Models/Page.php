@@ -59,5 +59,10 @@ class Page extends Model
         return $this->book->pages()->where('sort', '<', $this->sort)->orderBy('sort')->first();
     }
 
+    public function isPublished(): bool
+    {
+        return $this->status === self::STATUS_PUBLISHED;
+    }
+
 
 }
