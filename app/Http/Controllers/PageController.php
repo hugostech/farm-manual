@@ -60,6 +60,8 @@ class PageController extends Controller
         $cleanData = $request->validate([
             'title' => 'required',
             'context' => 'required',
+            'status' => 'required',
+            'sort' => 'nullable|integer',
         ]);
         $page->fill($cleanData);
         $page->save();

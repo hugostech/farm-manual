@@ -25,6 +25,13 @@
                                     <textarea id="pageeditor" name="context" class="form-control" style="height: 300px;">{!! $page->context !!}</textarea>
                                 </div>
                                 <div class="form-group mt-3">
+                                    <label for="status" class="form-label lead">Status</label>
+                                    <select class="form-control" name="status" id="status">
+                                        <option value="draft" {{ $page->status == 'draft' ? 'selected' : '' }}>Draft</option>
+                                        <option value="published" {{ $page->status == 'published' ? 'selected' : '' }}>Published</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
                                     <label class="form-label lead">Last Edited: {{ $page->updated_at->format('Y-m-d H:i:s') }}</label>
                                 </div>
                                 <div class="form-group mt-3">

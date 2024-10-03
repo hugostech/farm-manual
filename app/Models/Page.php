@@ -9,6 +9,9 @@ class Page extends Model
 {
     use Historable;
 
+    const STATUS_PUBLISHED = 'published';
+    const STATUS_DRAFT = 'draft';
+
     protected $fillable = [
         'url',
         'title',
@@ -16,6 +19,7 @@ class Page extends Model
         'sort',
         'book_id',
         'category_id',
+        'status',
     ];
 
     public function readers(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
@@ -38,6 +42,21 @@ class Page extends Model
     public function getUrl(): string
     {
         return route('pages.show', ['page' => $this]);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', self::STATUS_PUBLISHED);
+    }
+
+    public function nextPage(): ?Page
+    {
+        return $this->book->pages()->where('sort', '>', $this->sort)->orderBy('sort')->first();
+    }
+
+    public function lastPage(): ?Page
+    {
+        return $this->book->pages()->where('sort', '<', $this->sort)->orderBy('sort')->first();
     }
 
 

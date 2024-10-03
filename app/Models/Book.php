@@ -56,6 +56,16 @@ class Book extends Model
         return $this->catalogs()->whereNull('parent_id')->where('status', Catalog::STATUS_PUBLISHED)->get()->sortBy('sort');
     }
 
+    public function availablePages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Page::class)->available();
+    }
+
+    public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Page::class);
+    }
+
     /**
      * return all todays readers of the book
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

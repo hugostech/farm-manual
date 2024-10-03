@@ -11,24 +11,11 @@
                         </div>
                         <hr>
                         <div class="card-body px-0 pt-0 pb-2">
-                           @foreach($book->availableCatalogs() as $catalog)
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catalog_{{$catalog->id}}" aria-expanded="false" aria-controls="collapseTwo">
-                                        {{$catalog->title}}
-                                    </button>
-                                </h2>
-                                <div id="catalog_{{$catalog->id}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            @foreach($catalog->pages as $page)
-                                                <li><a href="{{route('pages.show', ['page'=>$page])}}">{{$page->title}}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                            <ul>
+                                @foreach($book->pages()->orderBy('sort')->get() as $page)
+                                    <li><a href="{{route('pages.show', ['page'=>$page])}}">{{$page->title}}</a></li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
