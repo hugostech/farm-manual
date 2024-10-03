@@ -46,8 +46,6 @@ class AdminController extends Controller
         if ($cleanData['group'] != $user->group->id) {
             $user->groups()->sync([$cleanData['group']]);
         }
-        // Send email to the user
-        Mail::to($user->email)->send(new UserCreated($user, $request->password));
 
         return redirect()->back();
     }
@@ -70,6 +68,8 @@ class AdminController extends Controller
             $user->storeProfileImage($request->file('profile_image'));
         }
         $user->groups()->sync([$cleanData['group']]);
+        // Send email to the user
+        Mail::to($user)->send(new UserCreated($user, $request->password));
         return redirect()->back();
     }
 }

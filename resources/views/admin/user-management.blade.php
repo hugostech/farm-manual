@@ -24,16 +24,16 @@
 
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="email" class="form-label">Email <span class="text-sm text-danger"></span></label>
+                                                    <label for="email" class="form-label">Email <sup class="text-danger">*</sup></label>
                                                     <input type="email" class="form-control"  name="email" required>
                                                 </div>
                                             <div class="mb-3">
-                                                <label for="password" class="form-label">Password <span class="text-sm text-danger"></span></label>
+                                                <label for="password" class="form-label">Password <sup class="text-danger">*</sup></label>
                                                 <input type="text" class="form-control"  name="password" value="{{\Illuminate\Support\Str::random(8)}}" required>
                                             </div>
 
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label">Name</label>
+                                                    <label for="username" class="form-label">Name <sup class="text-danger">*</sup></label>
                                                     <input type="text" class="form-control"  name="name" required>
                                                 </div>
                                                 <div class="mb-3">
@@ -45,7 +45,7 @@
                                                     <input type="text" class="form-control"  name="location">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="status" class="form-label">Status</label>
+                                                    <label for="status" class="form-label">Status <sup class="text-danger">*</sup></label>
                                                     <select class="form-select" name="status" required>
                                                         <option value="1">Active</option>
                                                         <option value="0">Disable</option>
@@ -53,7 +53,7 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label for="group" class="form-label">Group</label>
+                                                    <label for="group" class="form-label">Group <sup class="text-danger">*</sup></label>
                                                     <select class="form-select"  name="group" required>
                                                         @foreach(\App\Models\Group::all() as $group)
                                                             <option value="{{$group->id}}">{{$group->name}}</option>
@@ -200,19 +200,19 @@
                             <input type="text" class="form-control" id="password" name="password">
                         </div>
                         <div class="mb-3">
-                            <label for="username" class="form-label">Name</label>
+                            <label for="username" class="form-label">Name <sup class="text-danger">*</sup></label>
                             <input type="text" class="form-control" id="username" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required>
+                            <input type="text" class="form-control" id="phone" name="phone">
                         </div>
                         <div class="mb-3">
                             <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" required>
+                            <input type="text" class="form-control" id="location" name="location">
                         </div>
                         <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
+                            <label for="status" class="form-label">Status <sup class="text-danger">*</sup></label>
                             <select class="form-select" id="status" name="status" required>
                                 <option value="1">Active</option>
                                 <option value="0">Disable</option>
@@ -220,7 +220,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="group" class="form-label">Group</label>
+                            <label for="group" class="form-label">Group <sup class="text-danger">*</sup></label>
                             <select class="form-select" id="group" name="group" required>
                                 @foreach(\App\Models\Group::all() as $group)
                                 <option value="{{$group->id}}">{{$group->name}}</option>

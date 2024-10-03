@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,7 +17,7 @@ class UserCreated extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public string $user, public string $password)
+    public function __construct(public User $user, public string $password)
     {
         //
     }
@@ -37,7 +38,7 @@ class UserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.user-created',
+            view: 'email.user-created',
         );
     }
 
