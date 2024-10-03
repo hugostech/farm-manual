@@ -69,7 +69,7 @@ class PageController extends Controller
         ]);
         $page->fill($cleanData);
         $page->save();
-        return redirect()->route('pages.show', $page)->with('success', 'Page updated successfully');
+        return redirect()->route('books.show', $page->book)->with('success', 'Page updated successfully');
     }
 
     /**

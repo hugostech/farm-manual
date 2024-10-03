@@ -44,6 +44,11 @@ class Page extends Model
         return route('pages.show', ['page' => $this]);
     }
 
+    public function book(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Book::class);
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('status', self::STATUS_PUBLISHED);
