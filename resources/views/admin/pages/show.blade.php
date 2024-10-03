@@ -22,7 +22,9 @@
                                 </div>
                                 <div class="form-group mt-3">
                                     <label for="pageeditor" class="form-label lead">Page Content</label>
-                                    <textarea id="pageeditor" name="context" class="form-control" style="height: 300px;">{!! $page->context !!}</textarea>
+                                    <textarea id="pageeditor" name="context" class="form-control" style="height: 300px;">
+                                        {!! $page->context  !!}
+                                    </textarea>
                                 </div>
                                 <div class="form-group mt-3">
                                     <label for="status" class="form-label lead">Status</label>

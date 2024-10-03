@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Page::class, 'page');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -49,7 +53,7 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-        //
+        return view('admin.pages.show', compact('page'));
     }
 
     /**
@@ -74,5 +78,18 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
+    }
+
+    public function reorder(Request $request)
+    {
+        $cleanData = $request->validate([
+            'pages' => 'required|array',
+        ]);
+
+        dd($cleanData);
+        foreach ($cleanData['pages'] as $index => $pageId) {
+            Page::where('id', $pageId)->update(['sort' => $index]);
+        }
+        return response()->json(['message' => 'Pages reordered successfully']);
     }
 }
