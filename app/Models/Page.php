@@ -12,7 +12,10 @@ class Page extends Model
     protected $fillable = [
         'url',
         'title',
-        'content',
+        'context',
+        'sort',
+        'book_id',
+        'category_id',
     ];
 
     public function readers(): \Illuminate\Database\Eloquent\Relations\HasManyThrough

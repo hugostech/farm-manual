@@ -57,7 +57,13 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        //
+        $cleanData = $request->validate([
+            'title' => 'required',
+            'context' => 'required',
+        ]);
+        $page->fill($cleanData);
+        $page->save();
+        return redirect()->route('pages.show', $page)->with('success', 'Page updated successfully');
     }
 
     /**

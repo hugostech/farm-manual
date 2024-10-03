@@ -18,12 +18,11 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="page_title" class="form-label lead">Page Title</label>
-                                    <input class="form-control" type="text" name="page_title" id="page_title" value="{{ $page->title }}">
+                                    <input class="form-control" type="text" name="title" id="page_title" value="{{ $page->title }}">
                                 </div>
                                 <div class="form-group mt-3">
                                     <label for="pageeditor" class="form-label lead">Page Content</label>
-                                    <div id="pageeditor" class="form-control" style="height: 300px;">{!! $page->context !!}</div>
-                                    <input type="hidden" name="page_content" id="page_content">
+                                    <textarea id="pageeditor" name="context" class="form-control" style="height: 300px;">{!! $page->context !!}</textarea>
                                 </div>
                                 <div class="form-group mt-3">
                                     <label class="form-label lead">Last Edited: {{ $page->updated_at->format('Y-m-d H:i:s') }}</label>
@@ -58,48 +57,33 @@
         </div>
     </div>
 
-    <!-- Include the Quill library and Quill Table Module -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
-    <!-- Initialize Quill editor and handle form submission -->
+    <!-- Include TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/snjfxvgpd3jss980lw449vmn7weclaka3h2cn0l0w5aiqjrw/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <!-- Initialize TinyMCE and handle form submission -->
     <script>
-        const toolbarOptions = [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            ['link', 'image', 'video', 'formula'],
-
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-
-            ['clean']                                         // remove formatting button
-        ];
-
-        const quill = new Quill('#pageeditor', {
-            theme: 'snow',
-            modules: {
-                toolbar: toolbarOptions,
-                history: {
-                    delay: 2000,
-                    maxStack: 500,
-                    userOnly: true
-                },
+        tinymce.init({
+            selector: '#pageeditor',
+            plugins: [
+                // Core editing features
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                // Your account includes a free trial of TinyMCE premium features
+                // Try the most popular premium features until Oct 18, 2024:
+                'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+            ],
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+            height: 500,
+            setup: function (editor) {
+                document.getElementById('confirmSubmit').addEventListener('click', function() {
+                    document.getElementById('pageForm').submit();
+                });
             }
-        });
-
-        document.getElementById('confirmSubmit').addEventListener('click', function() {
-            document.querySelector('#page_content').value = quill.root.innerHTML;
-            document.getElementById('pageForm').submit();
         });
     </script>
 @endsection
