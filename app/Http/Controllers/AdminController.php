@@ -55,7 +55,11 @@ class AdminController extends Controller
             'status' => 'required',
             'password' => 'nullable|string',
         ]);
-        $cleanData['password'] = bcrypt($cleanData['password']);
+        if ($cleanData['password']) {
+            $cleanData['password'] = bcrypt($cleanData['password']);
+        }else {
+            unset($cleanData['password']);
+        }
         $user->fill($cleanData);
         $user->save();
         if ($request->has('profile_image')) {
