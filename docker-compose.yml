@@ -30,7 +30,7 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "8910:80"
+      - "127.0.0.1:8910:80"
     volumes:
       - .:/var/www/html
       - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
