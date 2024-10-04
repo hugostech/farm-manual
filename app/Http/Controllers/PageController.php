@@ -84,11 +84,11 @@ class PageController extends Controller
     public function reorder(Request $request)
     {
         $cleanData = $request->validate([
-            'pages' => 'required|array',
+            'sortedIDs' => 'required|array',
         ]);
 
-        dd($cleanData);
-        foreach ($cleanData['pages'] as $index => $pageId) {
+
+        foreach ($cleanData['sortedIDs'] as $index => $pageId) {
             Page::where('id', $pageId)->update(['sort' => $index]);
         }
         return response()->json(['message' => 'Pages reordered successfully']);

@@ -103,4 +103,18 @@ class Book extends Model
         return route('books.show', ['book' => $this]);
     }
 
+    public function buildBreadcrumb(): array
+    {
+        $breadcrumbs = new Collection();
+        $breadcrumbs->push([
+            'title' => 'Dashboard',
+            'url' => url('/'),
+        ]);
+        $breadcrumbs->push([
+            'title' => $this->title,
+            'url' => $this->getUrl(),
+        ]);
+        return $breadcrumbs->toArray();
+    }
+
 }

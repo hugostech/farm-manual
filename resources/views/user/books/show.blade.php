@@ -8,7 +8,9 @@
                     <div class="card mb-4">
                         <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                             <h4>{{$book->title}}</h4>
-                            <a class="btn btn-primary" href="{{$book->getLastReadPage(\Illuminate\Support\Facades\Auth::user())}}">Jump to Last Viewed Page</a>
+                            @if($lastReadPageUrl)
+                            <a class="btn btn-primary" href="{{$lastReadPageUrl}}">Jump to Last Viewed Page</a>
+                            @endif
                         </div>
                         <hr>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -20,7 +22,7 @@
                                 <div class="col-md-4 mb-3">
                                     <div class="card h-100">
                                         <div class="card-body d-flex flex-column justify-content-between">
-                                            <h5 class="card-title">{{ $page->title }}</h5>
+                                            <h5 class="card-title">{{$index+1}}. {{ $page->title }}</h5>
                                             <a href="{{ $page->getUrl() }}" class="btn btn-primary mt-auto">Read</a>
                                         </div>
                                     </div>

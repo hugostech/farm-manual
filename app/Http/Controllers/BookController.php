@@ -60,10 +60,16 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
+        $breadcrumbs = $book->buildBreadcrumb();
         if (Auth::user()->isAdmin()) {
-            return view('admin.books.show', compact('book'));
+            return view('admin.books.show', compact('book', 'breadcrumbs'));
         }else{
-            return view('user.books.show', compact('book'));
+            $lastReadPageUrl = null;
+            $lastReadPage = $book->getLastReadPage(Auth::user());
+            if ($lastReadPage){
+                $lastReadPageUrl = $lastReadPage->getUrl();
+            }
+            return view('user.books.show', compact('book', 'lastReadPageUrl', 'breadcrumbs'));
         }
     }
 

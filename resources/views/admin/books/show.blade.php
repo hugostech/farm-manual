@@ -14,10 +14,9 @@
                             <table class="table table-hover" id="pagesTable">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Page Order</th>
                                     <th>Title</th>
                                     <th>Last Edit</th>
-                                    <th>Sort</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -25,12 +24,13 @@
                                 <tbody>
                                 @foreach($book->pages()->orderBy('sort')->get() as $page)
                                     <tr data-id="{{ $page->id }}">
-                                        <td>{{ $page->id }}</td>
+                                        <td class="text-center">{{ $page->sort }}</td>
                                         <td>{{ $page->title }}</td>
                                         <td>{{ $page->updated_at->format('Y-m-d H:i:s') }}</td>
-                                        <td>{{ $page->sort }}</td>
+
                                         <td>
-                                            <button class="btn btn-sm toggle-status {{ $page->status == \App\Models\Page::STATUS_PUBLISHED ? 'btn-success' : 'btn-secondary' }}" data-id="{{ $page->id }}">
+                                            <button class="btn btn-sm toggle-status {{ $page->status == \App\Models\Page::STATUS_PUBLISHED ? 'btn-success' : 'btn-secondary' }}"
+                                                    data-toggle-url="{{ route("pages.toggleStatus", $page) }}">
                                                 {{ $page->status == \App\Models\Page::STATUS_PUBLISHED ? 'Unpublish' : 'Publish' }}
                                             </button>
                                         </td>
@@ -68,12 +68,6 @@
         </div>
     </div>
 
-    <!-- Include jQuery and jQuery UI for drag-and-drop functionality -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         $(function() {
             var initialOrder = $("#pagesTable tbody").html();
@@ -105,9 +99,9 @@
             });
 
             $('.toggle-status').on('click', function() {
-                var pageId = $(this).data('id');
+                var url = $(this).data('toggle-url');
                 $.ajax({
-                    url: '{{ route("pages.toggleStatus", $page) }}',
+                    url: url,
                     method: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
