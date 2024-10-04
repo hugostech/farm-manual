@@ -21,6 +21,7 @@ services:
     volumes:
       - .:/var/www/html
       - ./.docker/php_local.ini:/usr/local/etc/php/conf.d/local.ini
+    working_dir: /var/www/html
     depends_on:
       - mysql
 
@@ -33,6 +34,7 @@ services:
     volumes:
       - .:/var/www/html
       - ./.docker/nginx.conf:/etc/nginx/nginx.conf
+    working_dir: /var/www/html
     depends_on:
       - php
 
