@@ -33,7 +33,14 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cleanData = $request->validate([
+            'title' => 'required',
+            'book_id' => 'required|exists:books,id',
+        ]);
+        $sort = Page::where('book_id', $cleanData['book_id'])->max('sort');
+        $cleanData['sort'] = $sort + 1;
+        $page = Page::create($cleanData);
+        return redirect()->route('books.show', $page->book)->with('success', 'Page created successfully');
     }
 
     /**
@@ -78,7 +85,7 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        //
+        $page->delete();
     }
 
     public function reorder(Request $request)
@@ -92,5 +99,12 @@ class PageController extends Controller
             Page::where('id', $pageId)->update(['sort' => $index]);
         }
         return response()->json(['message' => 'Pages reordered successfully']);
+    }
+
+    public function toggleStatus(Request $request, Page $page)
+    {
+        $page->status = $page->status === Page::STATUS_PUBLISHED ? Page::STATUS_DRAFT : Page::STATUS_PUBLISHED;
+        $page->save();
+        return redirect()->route('books.show', $page->book);
     }
 }

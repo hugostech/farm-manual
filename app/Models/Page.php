@@ -14,7 +14,6 @@ class Page extends Model
     const STATUS_DRAFT = 'draft';
 
     protected $fillable = [
-        'url',
         'title',
         'context',
         'sort',
