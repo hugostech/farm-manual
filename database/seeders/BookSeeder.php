@@ -70,7 +70,6 @@ class BookSeeder extends Seeder
             DB::table('pages')->insert([
                 'id' => $i,
                 'title' => $faker->sentence,
-                'url' => $faker->url,
                 'context' => $faker->text,
                 'sort' => $i,
                 'catalog_id' => 1,
