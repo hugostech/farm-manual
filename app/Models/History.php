@@ -26,4 +26,14 @@ class History extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Convert the old data to a model
+     */
+    public function convertToModel(): Model
+    {
+        $model = new $this->historable_type();
+        $model->fill($this->old_data);
+        return $model;
+    }
 }

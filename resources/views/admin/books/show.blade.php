@@ -31,14 +31,15 @@
                                         <td>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input toggle-status" type="checkbox"
-                                                    {{ $page->status == \App\Models\Page::STATUS_PUBLISHED ? 'checked' : '' }}
-                                                    data-toggle-url="{{ route("pages.toggleStatus", $page) }}"
+                                                       {{ $page->status == \App\Models\Page::STATUS_PUBLISHED ? 'checked' : '' }}
+                                                       data-toggle-url="{{ route("pages.toggleStatus", $page) }}"
                                                 />
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-info view-history" data-id="{{ $page->id }}">History</button>
+                                            <button class="btn btn-sm btn-info view-history" data-history-url="{{ route('pages.histories', $page) }}">History</button>
                                             <a href="{{ route('pages.edit', ['page' => $page]) }}" class="btn btn-sm btn-warning">Edit</a>
+                                            <button class="btn btn-sm btn-danger delete-page" data-id="{{ $page->id }}" data-bs-toggle="modal" data-bs-target="#deletePageModal">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -96,6 +97,29 @@
         </div>
     </div>
 
+    <!-- Delete Page Modal -->
+    <div class="modal fade" id="deletePageModal" tabindex="-1" aria-labelledby="deletePageModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deletePageForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deletePageModalLabel">Delete Page</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete this page?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(function() {
             var initialOrder = $("#pagesTable tbody").html();
@@ -128,7 +152,6 @@
 
             $('.toggle-status').on('click', function() {
                 var url = $(this).data('toggle-url');
-                console.log(url);
                 $.ajax({
                     url: url,
                     method: 'POST',
@@ -142,8 +165,14 @@
             });
 
             $('.view-history').on('click', function() {
+                var url = $(this).data('history-url');
+                window.location.href = url;
+            });
+
+            $('.delete-page').on('click', function() {
                 var pageId = $(this).data('id');
-                window.location.href = '{{ url("pages/history") }}/' + pageId;
+                var action = '{{ url("pages") }}/' + pageId;
+                $('#deletePageForm').attr('action', action);
             });
         });
     </script>

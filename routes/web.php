@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth', \App\Http\Middleware\UserStatusCheck::cla
         Route::resource('groups', \App\Http\Controllers\UserGroupController::class);
         Route::post('pages/reorder', [\App\Http\Controllers\PageController::class, 'reorder'])->name('pages.updateSort');
         Route::post('pages/{page}/status/change', [\App\Http\Controllers\PageController::class, 'toggleStatus'])->name('pages.toggleStatus');
+        Route::get('pages/{page}/histories', [\App\Http\Controllers\PageController::class, 'showPageHistories'])->name('pages.histories');
+        Route::get('pages/history/{history}/preview', [\App\Http\Controllers\PageController::class, 'previewPageHistory'])->name('pages.history.preview');
+        Route::post('pages/history/{history}/restore', [\App\Http\Controllers\PageController::class, 'restorePageHistory'])->name('pages.history.restore');
 
     });
 

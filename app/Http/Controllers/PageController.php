@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $page->delete();
+        return redirect()->route('books.show', $page->book)->with('success', 'Page deleted successfully');
     }
 
     public function reorder(Request $request)
@@ -93,7 +95,6 @@ class PageController extends Controller
         $cleanData = $request->validate([
             'sortedIDs' => 'required|array',
         ]);
-
 
         foreach ($cleanData['sortedIDs'] as $index => $pageId) {
             Page::where('id', $pageId)->update(['sort' => $index]);
@@ -103,8 +104,29 @@ class PageController extends Controller
 
     public function toggleStatus(Request $request, Page $page)
     {
-        $page->status = $page->status === Page::STATUS_PUBLISHED ? Page::STATUS_DRAFT : Page::STATUS_PUBLISHED;
-        $page->save();
+        Page::withoutRecordHistory(function () use ($page) {
+            $page->status = $page->status === Page::STATUS_PUBLISHED ? Page::STATUS_DRAFT : Page::STATUS_PUBLISHED;
+            $page->save();
+        });
+
         return redirect()->route('books.show', $page->book);
+    }
+
+    public function showPageHistories(Page $page)
+    {
+        $histories = $page->histories()->orderBy('created_at', 'desc')->get();
+        return view('admin.pages.history', compact('histories', 'page'));
+    }
+
+    public function previewPageHistory(History $history)
+    {
+        $page = $history->convertToModel();
+        return view('admin.pages.preview_history', compact('page'));
+    }
+
+    public function restorePageHistory(Request $request, History $history)
+    {
+        $history->historable->restoreHistory($history);
+        return redirect()->back()->with('success', 'Page restored successfully');
     }
 }
