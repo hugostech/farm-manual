@@ -304,7 +304,7 @@
                                                 <img src="{{$book->cover_image}}" class="avatar avatar-sm me-3" alt="xd">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{$book->title}}</h6>
+                                                <a href="{{route('books.show', $book)}}"><h6 class="mb-0 text-sm">{{$book->title}}</h6></a>
                                             </div>
                                         </div>
                                     </td>

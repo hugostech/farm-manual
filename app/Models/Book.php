@@ -57,6 +57,24 @@ class Book extends Model
     }
 
     /**
+     * return all pages with status published
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function availablePages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Page::class)->available();
+    }
+
+    /**
+     * return all pages
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Page::class);
+    }
+
+    /**
      * return all todays readers of the book
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -78,6 +96,25 @@ class Book extends Model
             ->orderBy('created_at', 'desc')
             ->first();
         return $history ? $history->page : null;
+    }
+
+    public function getUrl(): string
+    {
+        return route('books.show', ['book' => $this]);
+    }
+
+    public function buildBreadcrumb(): array
+    {
+        $breadcrumbs = new Collection();
+        $breadcrumbs->push([
+            'title' => 'Dashboard',
+            'url' => url('/'),
+        ]);
+        $breadcrumbs->push([
+            'title' => $this->title,
+            'url' => $this->getUrl(),
+        ]);
+        return $breadcrumbs->toArray();
     }
 
 }

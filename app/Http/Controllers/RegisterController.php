@@ -11,6 +11,8 @@ class RegisterController extends Controller
 {
     public function create()
     {
+        //disable registration
+        return redirect()->route('login')->with('error', 'Registration is disabled.');
         return view('session.register');
     }
 
@@ -24,11 +26,11 @@ class RegisterController extends Controller
         ]);
         $attributes['password'] = bcrypt($attributes['password'] );
 
-        
+
 
         session()->flash('success', 'Your account has been created.');
         $user = User::create($attributes);
-        Auth::login($user); 
+        Auth::login($user);
         return redirect('/dashboard');
     }
 }

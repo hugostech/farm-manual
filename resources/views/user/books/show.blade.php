@@ -6,29 +6,29 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-0">
+                        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                             <h4>{{$book->title}}</h4>
+                            @if($lastReadPageUrl)
+                            <a class="btn btn-primary" href="{{$lastReadPageUrl}}">Jump to Last Viewed Page</a>
+                            @endif
                         </div>
                         <hr>
                         <div class="card-body px-0 pt-0 pb-2">
-                           @foreach($book->availableCatalogs() as $catalog)
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#catalog_{{$catalog->id}}" aria-expanded="false" aria-controls="collapseTwo">
-                                        {{$catalog->title}}
-                                    </button>
-                                </h2>
-                                <div id="catalog_{{$catalog->id}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            @foreach($catalog->pages as $page)
-                                                <li><a href="{{route('pages.show', ['page'=>$page])}}">{{$page->title}}</a></li>
-                                            @endforeach
-                                        </ul>
+                            <div class="row">
+                                @foreach($book->availablePages()->orderBy('sort')->get() as $index => $page)
+                                    @if($index % 3 == 0 && $index != 0)
+                            </div><div class="row">
+                                @endif
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body d-flex flex-column justify-content-between">
+                                            <h5 class="card-title">{{$index+1}}. {{ $page->title }}</h5>
+                                            <a href="{{ $page->getUrl() }}" class="btn btn-primary mt-auto">Read</a>
+                                        </div>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
-                        @endforeach
                         </div>
                     </div>
                 </div>

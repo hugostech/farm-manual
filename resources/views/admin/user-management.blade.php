@@ -11,69 +11,17 @@
                             <div>
                                 <h5 class="mb-0">All Users</h5>
                             </div>
+                            <form action="{{ route('user-management') }}" method="GET" class="d-flex">
+                                <input type="text" name="query" class="form-control" placeholder="Search by email, phone, name" value="{{ request('query') }}">
+                                <select name="group" class="form-control ms-2">
+                                    <option value="">All Groups</option>
+                                    @foreach(\App\Models\Group::all() as $group)
+                                        <option value="{{ $group->id }}" {{ request('group') == $group->id ? 'selected' : '' }}>{{ $group->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn bg-gradient-primary btn-sm mb-0 ms-2">Search</button>
+                            </form>
                             <a href="#" data-bs-toggle="modal" data-bs-target="#createUserModal" class="btn bg-gradient-primary btn-sm mb-0" type="button">+&nbsp; New User</a>
-                            <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="{{ route('user.create')}}" method="POST" enctype="multipart/form-data">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editBookModalLabel">Create User</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                                @csrf
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email <span class="text-sm text-danger"></span></label>
-                                                    <input type="email" class="form-control"  name="email" required>
-                                                </div>
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Password <span class="text-sm text-danger"></span></label>
-                                                <input type="text" class="form-control"  name="password" value="{{\Illuminate\Support\Str::random(8)}}" required>
-                                            </div>
-
-                                                <div class="mb-3">
-                                                    <label for="username" class="form-label">Name</label>
-                                                    <input type="text" class="form-control"  name="name" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="phone" class="form-label">Phone</label>
-                                                    <input type="text" class="form-control"  name="phone">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="location" class="form-label">Location</label>
-                                                    <input type="text" class="form-control"  name="location">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="status" class="form-label">Status</label>
-                                                    <select class="form-select" name="status" required>
-                                                        <option value="1">Active</option>
-                                                        <option value="0">Disable</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="group" class="form-label">Group</label>
-                                                    <select class="form-select"  name="group" required>
-                                                        @foreach(\App\Models\Group::all() as $group)
-                                                            <option value="{{$group->id}}">{{$group->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="profile_image" class="form-label">Profile Image</label>
-                                                    <input type="file" class="form-control" name="profile_image">
-                                                </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -200,19 +148,19 @@
                             <input type="text" class="form-control" id="password" name="password">
                         </div>
                         <div class="mb-3">
-                            <label for="username" class="form-label">Name</label>
+                            <label for="username" class="form-label">Name <sup class="text-danger">*</sup></label>
                             <input type="text" class="form-control" id="username" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required>
+                            <input type="text" class="form-control" id="phone" name="phone">
                         </div>
                         <div class="mb-3">
                             <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" required>
+                            <input type="text" class="form-control" id="location" name="location">
                         </div>
                         <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
+                            <label for="status" class="form-label">Status <sup class="text-danger">*</sup></label>
                             <select class="form-select" id="status" name="status" required>
                                 <option value="1">Active</option>
                                 <option value="0">Disable</option>
@@ -220,10 +168,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="group" class="form-label">Group</label>
+                            <label for="group" class="form-label">Group <sup class="text-danger">*</sup></label>
                             <select class="form-select" id="group" name="group" required>
                                 @foreach(\App\Models\Group::all() as $group)
-                                <option value="{{$group->id}}">{{$group->name}}</option>
+                                    <option value="{{$group->id}}">{{$group->name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -14,16 +14,34 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $users = User::where('email', 'LIKE', "%{$query}%")
+            ->orWhere('phone', 'LIKE', "%{$query}%")
+            ->orWhere('name', 'LIKE', "%{$query}%")
+            ->paginate(10);
+
+        return view('admin.user-management', compact('users'));
+    }
+
     public function userManagerIndex(Request $request)
     {
-        if($request->has('role')) {
-            $users = User::whereHas('groups', function ($query) use ($request) {
-                $query->where('name', $request->role);
-            })->paginate(10);
-        } else {
-            $users = User::paginate(10);
+        $query = User::query();
+        $search = $request->get('query', '');
+        if ($search) {
+            $query->where('email', 'LIKE', "%{$search}%")
+                ->orWhere('phone', 'LIKE', "%{$search}%")
+                ->orWhere('name', 'LIKE', "%{$search}%");
         }
-        return view('admin.user-management', compact('users'));
+        $group_id = $request->get('group', null);
+        if($group_id) {
+            $query->whereHas('groups', function ($query) use ($group_id) {
+                $query->where('groups.id', $group_id);
+            });
+        }
+        $users = $query->paginate(15);
+        return view('admin.user-management', compact('users', 'search', 'group_id'));
     }
 
     public function userManagementUpdate(Request $request, User $user)
@@ -46,8 +64,6 @@ class AdminController extends Controller
         if ($cleanData['group'] != $user->group->id) {
             $user->groups()->sync([$cleanData['group']]);
         }
-        // Send email to the user
-        Mail::to($user->email)->send(new UserCreated($user, $request->password));
 
         return redirect()->back();
     }
@@ -70,6 +86,8 @@ class AdminController extends Controller
             $user->storeProfileImage($request->file('profile_image'));
         }
         $user->groups()->sync([$cleanData['group']]);
+        // Send email to the user
+        Mail::to($user)->send(new UserCreated($user, $request->password));
         return redirect()->back();
     }
 }
