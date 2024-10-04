@@ -8,7 +8,7 @@
                     <div class="card mb-4">
                         <div class="card-header pb-0 d-flex justify-content-between align-items-center">
                             <h4>{{$book->title}}</h4>
-                            <button class="btn btn-primary" id="jumpToLastViewed">Jump to Last Viewed Page</button>
+                            <a class="btn btn-primary" href="{{$book->getLastReadPage(\Illuminate\Support\Facades\Auth::user())}}">Jump to Last Viewed Page</a>
                         </div>
                         <hr>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -33,22 +33,4 @@
             </div>
         </div>
     </main>
-
-    <script>
-        document.getElementById('jumpToLastViewed').addEventListener('click', function() {
-            var lastViewedPageId = localStorage.getItem('lastViewedPageId');
-            if (lastViewedPageId) {
-                window.location.href = '{{ url("pages") }}/' + lastViewedPageId;
-            } else {
-                alert('No last viewed page found.');
-            }
-        });
-
-        document.querySelectorAll('.btn-primary').forEach(function(link) {
-            link.addEventListener('click', function() {
-                var pageId = this.href.split('/').pop();
-                localStorage.setItem('lastViewedPageId', pageId);
-            });
-        });
-    </script>
 @endsection

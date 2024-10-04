@@ -56,11 +56,19 @@ class Book extends Model
         return $this->catalogs()->whereNull('parent_id')->where('status', Catalog::STATUS_PUBLISHED)->get()->sortBy('sort');
     }
 
+    /**
+     * return all pages with status published
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function availablePages(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Page::class)->available();
     }
 
+    /**
+     * return all pages
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Page::class);
@@ -88,6 +96,11 @@ class Book extends Model
             ->orderBy('created_at', 'desc')
             ->first();
         return $history ? $history->page : null;
+    }
+
+    public function getUrl(): string
+    {
+        return route('books.show', ['book' => $this]);
     }
 
 }

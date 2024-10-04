@@ -41,11 +41,12 @@ class PageController extends Controller
      */
     public function show(Page $page)
     {
+        $breadcrumbs = $page->buildBreadcrumb();
         if (Auth::user()->isAdmin()) {
-            return view('admin.pages.show', compact('page'));
+            return view('admin.pages.show', compact('page', 'breadcrumbs'));
         }
         $page->recordReader(Auth::user());
-        return view('user.pages.show', compact('page'));
+        return view('user.pages.show', compact('page', 'breadcrumbs'));
     }
 
     /**
