@@ -25,7 +25,7 @@ This project is a comprehensive LU farm manual management system built using Lar
 ### Step 1: Clone the Repository
 
 ```sh
-git clone git@github.com:hugostech/farm-manual.git
+git clone https://github.com/hugostech/farm-manual.git
 cd farm-manual
 ```
 
