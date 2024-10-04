@@ -88,7 +88,7 @@ class BookController extends Controller
     {
         $this->authorize('update', $book);
         $cleanData = $request->validate([
-            'cover_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048',
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string',
             'author' => 'required|string|max:255',

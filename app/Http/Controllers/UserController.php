@@ -26,7 +26,7 @@ class UserController extends Controller
     public function updateImage(Request $request, User $user)
     {
         $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
         ]);
 
         if ($request->hasFile('profile_image')) {
