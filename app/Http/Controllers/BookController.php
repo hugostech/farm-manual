@@ -15,7 +15,7 @@ class BookController extends Controller
     {
 
         $user = $request->user();
-        $books = $user->availableBooks;
+        $books = $user->getAvailableBooks();
         if ($user->isAdmin()) {
 
             return view('admin.books.index', compact('books'));
