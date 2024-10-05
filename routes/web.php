@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth', \App\Http\Middleware\UserStatusCheck::cla
 
 
     Route::get('/', [HomeController::class, 'home']);
+    Route::get('/search', [HomeController::class, 'search'])->name('search_page');
 
 
 

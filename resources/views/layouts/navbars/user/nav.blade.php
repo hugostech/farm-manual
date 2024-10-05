@@ -18,10 +18,21 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
 
             <div class="ms-md-3 pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" placeholder="Type here...">
-            </div>
+
+                <div class="input-group">
+                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" placeholder="Search" id="search-input">
+                    <button class="btn btn-primary mb-0" type="button" onclick="performSearch()">Search</button>
+                </div>
+
+                <script>
+                    function performSearch() {
+                        const query = document.getElementById('search-input').value;
+                        if (query) {
+                            window.location.href = `{{ route('search_page') }}?query=${query}`;
+                        }
+                    }
+                </script>
             </div>
             <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">

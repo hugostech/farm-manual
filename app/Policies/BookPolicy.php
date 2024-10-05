@@ -21,7 +21,10 @@ class BookPolicy
      */
     public function view(User $user, Book $book): bool
     {
-        return true;
+        if ($user->isAdmin()) {
+            return true;
+        }
+        return $user->getAvailableBooks()->contains($book);
     }
 
     /**

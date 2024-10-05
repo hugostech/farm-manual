@@ -66,7 +66,7 @@ class UserGroupController extends Controller
     {
         $cleanData = $request->validate([
             'name' => 'required',
-            'books' => 'required|array',
+            'books' => 'nullable|array',
         ]);
 
         if (!$group->is_editable) {
@@ -75,7 +75,7 @@ class UserGroupController extends Controller
 
         $group->update($cleanData);
 
-        $group->books()->sync($cleanData['books']);
+        $group->books()->sync($cleanData['books'] ?? []);
 
         return redirect()->route('groups.index');
 

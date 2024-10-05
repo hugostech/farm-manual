@@ -13,9 +13,11 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $books = Book::all();
+
         $user = $request->user();
+        $books = $user->availableBooks;
         if ($user->isAdmin()) {
+
             return view('admin.books.index', compact('books'));
         }
         return view('user.books.index', compact('books'));
@@ -43,7 +45,6 @@ class BookController extends Controller
             'published_at' => 'nullable|date',
         ]);
 
-        $image = $request->file('cover_image');
         $book = new Book();
         $book->fill($cleanData);
         $book->save();
@@ -60,6 +61,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
+        if(!Auth::user()->can('view', $book)){
+            return redirect('/')->with('error', 'You are not allowed to view this book');
+        }
         $breadcrumbs = $book->buildBreadcrumb();
         if (Auth::user()->isAdmin()) {
             return view('admin.books.show', compact('book', 'breadcrumbs'));
