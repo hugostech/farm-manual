@@ -80,7 +80,7 @@ class User extends Authenticatable
         if ($this->isAdmin()) {
             return Book::all();
         }
-        return $this->groups()->first()?->books ?? collect();
+        return $this->groups()->first()?->books()->where('status', Book::STATUS_PUBLISHED) ?? collect();
     }
 
     public function getAvatarAttribute()
